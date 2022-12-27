@@ -1,0 +1,7 @@
+[profile.optimized]
+inherits = "release"
+strip = true    # Automatically strip symbols from the binary.
+opt-level = "z" # Optimize for size
+lto = true      # Optimize linker at the link stage
+codegen-units = 1 # Decrease parallel codegen which ma y prevent some optimizations.
+panic = "abort" # Do not unwind the stack. Removes extra code for backtracing.
