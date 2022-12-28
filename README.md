@@ -1,4 +1,4 @@
-# ink-optimizer
+# ink-compiler
 
 Build ink contracts without worrying up about setting up your environment with correct dependencies.
 
@@ -12,7 +12,7 @@ Suggested developer usage is to add the following function to your ~/.bashrc:
 function ink-build() {
   docker run \
     -v "$PWD:/code" \
-    --rm -it ink-optimizer/ink-v2.0.0-beta.1 cargo contract build --release --quiet
+    --rm -it cardinal-cryptography/ink-compiler cargo contract build --release --quiet
 }
 ```
 Don't forget to `source ~/.bashrc` before first usage.
