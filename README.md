@@ -11,10 +11,14 @@ Suggested developer usage is to add the following function to your ~/.bashrc:
 ```sh
 function ink-build() {
   docker run \
-    -v "$PWD:/code" \
-    --rm -it cardinal-cryptography/ink-compiler cargo contract build --release --quiet
+    -v "${PWD}:/code" \
+    --platform linux/amd64 \
+    --rm -it cardinal-cryptography/ink-compiler:latest \
+    cargo contract build --release --quiet
 }
 ```
+**NOTE:** For ARM use `--platform linux/arm64/v8` instead.
+
 Don't forget to `source ~/.bashrc` before first usage.
 
 Then use in your project:
@@ -29,6 +33,10 @@ $ ink-build()
 
 In the root directory run `make build-image`. 
 
-If you want to build the image with specific tag, set `INK_COMPILER_TAG` variable. If unset, defaults to `latest`.
-
 `optimized-build.toml` file contains special build profile used for building `cargo-contract` package which results in smaller binary than when using defaults.
+
+
+## Testing
+
+To test that the resulting image can build contracts written in ink, run `make test-contract` (if you're running on ARM, execute `test-contract-arm64`) and verify that `test-contract/target` contains correct results.
+
