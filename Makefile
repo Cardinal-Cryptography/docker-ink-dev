@@ -1,4 +1,4 @@
-.PHONY: build-image build-ink-compiler-x86_64 build-ink-compiler-arm64 test-contract-arm64 test-contract
+.PHONY: build-image build-ink-compiler-x86_64 build-ink-compiler-arm64 test-contract-x86_64 test-contract-arm64
 
 DOCKER_NAME_INK_COMPILER := cardinal-cryptography/ink-compiler
 DOCKER_TAG := 0.1.0
@@ -18,9 +18,7 @@ build-ink-compiler-arm64:
 	&& docker tag $(DOCKER_NAME_INK_COMPILER)-arm64:$(DOCKER_TAG) $(DOCKER_NAME_INK_COMPILER)-arm64:latest
 
 test-contract:
-	cd test-contract && docker run --platform linux/amd64    -v "${PWD}/test-contract:/code" --rm -it \
-	 $(DOCKER_NAME_INK_COMPILER):$(DOCKER_TAG)       cargo contract build --release --quiet
+	cd test-contract && docker run -v "${PWD}/test-contract:/code" --rm -it $(DOCKER_NAME_INK_COMPILER):$(DOCKER_TAG) cargo contract build --release --quiet
 
 test-contract-arm64:
-	cd test-contract && docker run --platform linux/arm64/v8 -v "${PWD}/test-contract:/code" --rm -it \
-	 $(DOCKER_NAME_INK_COMPILER)-arm64:$(DOCKER_TAG) cargo contract build --release --quiet
+	cd test-contract && docker run -v "${PWD}/test-contract:/code" --rm -it $(DOCKER_NAME_INK_COMPILER)-arm64:$(DOCKER_TAG) cargo contract build --release --quiet
