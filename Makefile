@@ -17,7 +17,7 @@ build-ink-compiler-arm64:
 	docker buildx build --pull --platform linux/arm64/v8 -t $(DOCKER_NAME_INK_COMPILER)-arm64:$(DOCKER_TAG) --load . \
 	&& docker tag $(DOCKER_NAME_INK_COMPILER)-arm64:$(DOCKER_TAG) $(DOCKER_NAME_INK_COMPILER)-arm64:latest
 
-test-contract:
+test-contract-x86_64:
 	cd test-contract && docker run -v "${PWD}/test-contract:/code" --rm -it $(DOCKER_NAME_INK_COMPILER):$(DOCKER_TAG) cargo contract build --release --quiet
 
 test-contract-arm64:

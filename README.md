@@ -62,5 +62,5 @@ In the root directory run `make build-image`.
 
 ## Testing
 
-To test that the resulting image can build contracts written in ink, run `make test-contract` (if you're running on ARM, execute `test-contract-arm64`) and verify that `test-contract/target` contains correct results.
+To test that the resulting image can build contracts written in ink, run `make test-contract-x86_64` (if you're running on ARM, execute `test-contract-arm64`) and verify that `test-contract/target` contains correct results.
 
