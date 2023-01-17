@@ -72,7 +72,7 @@ RUN rm -rf cargo-contract
 #
 # ink! 4.0 optimizer
 # 
-FROM slimmed-rust as ink-compiler
+FROM slimmed-rust as ink-dev
 
 # Update the repository; add without caching dependencies.
 # Add required gcc integration (Alpine by default uses musl linker).
