@@ -31,10 +31,11 @@ $ ink-build()
 Or, more flexible:
 ```sh
 function ink-dev() {
-  docker run \
+  docker run --rm -it \
     -v ${PWD}:/code \
     --platform linux/amd64 \
-    --rm -it cardinal-cryptography/ink-dev:latest "$@"
+    -u $UID:$(id -g) \
+    cardinal-cryptography/ink-dev:latest "$@"
 }
 ```
 
@@ -84,11 +85,12 @@ Then using it as described in previous section will fails with `[ERROR]: cargo m
 
 For these cases, we need to mount additional directories manually:
 ```sh
-  docker run \
+  docker run --rm -it \
     -v ${PWD}:/code \
     -v ${PWD}/../other-contract:/other-contract
     --platform linux/amd64 \
-    --rm -it cardinal-cryptography/ink-dev:latest \
+    -u $UID:$(id -g) \
+    cardinal-cryptography/ink-dev:latest \
     cargo contract build --release --quiet
 ```
 Notice the additional `-v ${PWD}/../other-contract:/other-contract` which will mount your dependency so that it's visible in the docker container.
