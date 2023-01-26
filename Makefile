@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: build-image build-ink-dev-x86_64 build-ink-dev-arm64 test-contract-x86_64 test-contract-arm64
+.PHONY: help build-image build-ink-dev-x86_64 build-ink-dev-arm64 test-contract-x86_64 test-contract-arm64
 
 MAKEFILE_NAME := Ink development docker
 DOCKER_NAME_INK_DEV := cardinal-cryptography/ink-dev
