@@ -33,6 +33,8 @@ Or, more flexible:
 function ink-dev() {
   docker run --rm -it \
     -v ${PWD}:/code \
+    -v ~/.cargo/git:/usr/local/cargo/git \
+    -v ~/.cargo/registry:/usr/local/cargo/registry \
     --platform linux/amd64 \
     -u $UID:$(id -g) \
     cardinal-cryptography/ink-dev:latest "$@"
@@ -87,6 +89,8 @@ For these cases, we need to mount additional directories manually:
 ```sh
   docker run --rm -it \
     -v ${PWD}:/code \
+    -v ~/.cargo/git:/usr/local/cargo/git \
+    -v ~/.cargo/registry:/usr/local/cargo/registry \
     -v ${PWD}/../other-contract:/other-contract
     --platform linux/amd64 \
     -u $UID:$(id -g) \
