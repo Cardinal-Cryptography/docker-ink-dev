@@ -1,7 +1,7 @@
 .PHONY: build-image build-ink-dev-x86_64 build-ink-dev-arm64 test-contract-x86_64 test-contract-arm64
 
 DOCKER_NAME_INK_DEV := cardinal-cryptography/ink-dev
-DOCKER_TAG := 0.2.0
+DOCKER_TAG := 0.3.0
 
 # Native arch
 BUILDARCH := $(shell uname -m)
