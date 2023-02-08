@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - A0-1883-build-and-push-workflow
     paths-ignore:
       - '*.md'
       - 'LICENSE'
@@ -41,7 +40,7 @@ jobs:
         with:
           version: v0.9.1
 
-      - name: DOCKER | Build and push latest docker image
+      - name: DOCKER | Build and push docker image
         id: build-image
         uses: docker/build-push-action@v3
         with:
