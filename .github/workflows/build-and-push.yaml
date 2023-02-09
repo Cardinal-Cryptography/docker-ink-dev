@@ -12,7 +12,7 @@ on:
 
 jobs:
   build-push-docker-pr:
-    name: Build and push
+    name: Build and push - pull request
     runs-on: ubuntu-20.04
     if: github.event_name == 'pull_request'
     steps:
@@ -54,7 +54,7 @@ jobs:
             public.ecr.aws/p6e8q1z1/ink-dev:${{ env.IMAGE_TAG }}
 
   build-push-docker:
-    name: Build and push
+    name: Build and push - main
     runs-on: ubuntu-20.04
     if: >
       github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
