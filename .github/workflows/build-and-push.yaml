@@ -33,6 +33,10 @@ jobs:
           username: ${{ secrets.AWS_MAINNET_ACCESS_KEY_ID }}
           password: ${{ secrets.AWS_MAINNET_SECRET_ACCESS_KEY }}
 
+      - name: DOCKER | Export IMAGE_TAG
+        run: |
+          echo "IMAGE_TAG=`git rev-parse --short HEAD`" >> $GITHUB_ENV
+
       - name: DOCKER | Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
@@ -41,8 +45,6 @@ jobs:
 
       - name: DOCKER | Build and push docker image
         uses: docker/build-push-action@v3
-        env:
-          IMAGE_TAG: $(git rev-parse --short HEAD)
         with:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
