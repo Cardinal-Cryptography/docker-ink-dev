@@ -24,9 +24,6 @@ jobs:
 
       - name: AWS | Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
-        if: >
-          github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
-          github.event_name == 'workflow_dispatch'
         with:
           aws-access-key-id: ${{ secrets.AWS_MAINNET_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_MAINNET_SECRET_ACCESS_KEY }}
@@ -34,18 +31,12 @@ jobs:
 
       - name: AWS | Login to ECR
         uses: docker/login-action@v1
-        if: >
-          github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
-          github.event_name == 'workflow_dispatch'
         with:
           registry: public.ecr.aws
           username: ${{ secrets.AWS_MAINNET_ACCESS_KEY_ID }}
           password: ${{ secrets.AWS_MAINNET_SECRET_ACCESS_KEY }}
 
       - name: DOCKER | Export IMAGE_TAG
-        if: >
-          github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
-          github.event_name == 'workflow_dispatch'
         run: |
           echo "IMAGE_TAG=`cat Makefile | grep "DOCKER_TAG :=" | awk '{print $3}'`" >> $GITHUB_ENV
 
