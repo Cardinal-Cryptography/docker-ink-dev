@@ -15,40 +15,18 @@ on:
   pull_request:
 
 jobs:
-  build-docker:
-    name: Test build
-    runs-on: ubuntu-20.04
-    if: github.event_name == 'pull_request'
-    steps:
-      - name: GIT | Checkout Source code
-        uses: actions/checkout@v2
-
-      - name: DOCKER | Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          version: v0.9.1
-
-      - name: DOCKER | Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          builder: ${{ steps.buildx.outputs.name }}
-          file: ./Dockerfile
-          push: false
-
   build-push-docker:
     name: Build and push
     runs-on: ubuntu-20.04
-    if: >
-      github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
-      github.event_name == 'workflow_dispatch'
     steps:
       - name: GIT | Checkout Source code
         uses: actions/checkout@v2
 
       - name: AWS | Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
+        if: >
+          github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
+          github.event_name == 'workflow_dispatch'
         with:
           aws-access-key-id: ${{ secrets.AWS_MAINNET_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_MAINNET_SECRET_ACCESS_KEY }}
@@ -56,12 +34,18 @@ jobs:
 
       - name: AWS | Login to ECR
         uses: docker/login-action@v1
+        if: >
+          github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
+          github.event_name == 'workflow_dispatch'
         with:
           registry: public.ecr.aws
           username: ${{ secrets.AWS_MAINNET_ACCESS_KEY_ID }}
           password: ${{ secrets.AWS_MAINNET_SECRET_ACCESS_KEY }}
 
       - name: DOCKER | Export IMAGE_TAG
+        if: >
+          github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
+          github.event_name == 'workflow_dispatch'
         run: |
           echo "IMAGE_TAG=`cat Makefile | grep "DOCKER_TAG :=" | awk '{print $3}'`" >> $GITHUB_ENV
 
@@ -71,8 +55,20 @@ jobs:
         with:
           version: v0.9.1
 
+      - name: DOCKER | Build docker image
+        uses: docker/build-push-action@v3
+        if: github.event_name == 'pull_request'
+        with:
+          context: .
+          builder: ${{ steps.buildx.outputs.name }}
+          file: ./Dockerfile
+          push: false
+
       - name: DOCKER | Build and push docker image
         uses: docker/build-push-action@v3
+        if: >
+          github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
+          github.event_name == 'workflow_dispatch'
         with:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
