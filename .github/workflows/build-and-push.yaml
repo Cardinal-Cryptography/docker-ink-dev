@@ -1,5 +1,9 @@
 name: Build and push ink-dev container to ECR
 
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
 on:
   workflow_dispatch:
   push:
@@ -11,8 +15,8 @@ on:
   pull_request:
 
 jobs:
-  build-push-docker-pr:
-    name: Build and push - pull request
+  build-docker:
+    name: Test build
     runs-on: ubuntu-20.04
     if: github.event_name == 'pull_request'
     steps:
@@ -34,7 +38,7 @@ jobs:
           push: false
 
   build-push-docker:
-    name: Build and push - main
+    name: Build and push
     runs-on: ubuntu-20.04
     if: >
       github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
