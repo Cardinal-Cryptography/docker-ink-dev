@@ -54,6 +54,16 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           file: ./Dockerfile
           push: false
+          tags: |
+            ink-dev:latest
+
+      - name: Test building contract with docker
+        run: |
+          docker run                                        \
+            -v ${{ github.workspace }}/test-contract:/code  \
+            --platform linux/amd64                          \
+            ink-dev:latest                                  \
+            cargo contract build --release
 
       - name: DOCKER | Build and push docker image
         uses: docker/build-push-action@v3
