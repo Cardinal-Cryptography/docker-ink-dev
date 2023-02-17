@@ -59,6 +59,7 @@ jobs:
 
       - name: Test building contract with docker
         run: |
+          docker images &&
           docker run                                        \
             -v ${{ github.workspace }}/test-contract:/code  \
             --platform linux/amd64                          \
