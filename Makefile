@@ -23,10 +23,10 @@ build-ink-dev-arm64: ## Builds arm64 docker image
 test-contract: test-contract-${BUILDARCH} ## Detects local arch and tests contract
 
 test-contract-x86_64: ## Tests contract build on x86-64 image
-	cd test-contract && docker run -v "${PWD}/test-contract:/code" --rm -it $(DOCKER_NAME_INK_DEV):$(DOCKER_TAG) cargo contract build --release --quiet
+	cd test-contract && docker run -v "${PWD}/test-contract:/code" $(DOCKER_NAME_INK_DEV):$(DOCKER_TAG) cargo contract build --release
 
 test-contract-arm64: ## Tests contract build on arm64 image
-	cd test-contract && docker run -v "${PWD}/test-contract:/code" --rm -it $(DOCKER_NAME_INK_DEV)-arm64:$(DOCKER_TAG) cargo contract build --release --quiet
+	cd test-contract && docker run -v "${PWD}/test-contract:/code" $(DOCKER_NAME_INK_DEV)-arm64:$(DOCKER_TAG) cargo contract build --release
 
 help: ## Displays this help
 	@awk 'BEGIN {FS = ":.*##"; printf "$(MAKEFILE_NAME)\n\nUsage:\n  make \033[1;36m<target>\033[0m\n\nTargets:\n"} /^[a-zA-Z0-9_-]+:.*?##/ { printf "  \033[1;36m%-25s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
