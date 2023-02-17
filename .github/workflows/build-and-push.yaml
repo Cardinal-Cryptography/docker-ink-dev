@@ -47,24 +47,8 @@ jobs:
           version: v0.9.1
 
       - name: DOCKER | Build docker image
-        uses: docker/build-push-action@v3
         if: github.event_name == 'pull_request'
-        with:
-          context: .
-          builder: ${{ steps.buildx.outputs.name }}
-          file: ./Dockerfile
-          push: false
-          tags: |
-            ink-dev:latest
-
-      - name: Test building contract with docker
-        run: |
-          docker images &&
-          docker run                                        \
-            -v ${{ github.workspace }}/test-contract:/code  \
-            --platform linux/amd64                          \
-            ink-dev:latest                                  \
-            cargo contract build --release
+        run: make build-ink-dev-x86_64 && make test-contract-x86_64
 
       - name: DOCKER | Build and push docker image
         uses: docker/build-push-action@v3
