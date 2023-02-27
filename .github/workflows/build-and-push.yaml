@@ -17,7 +17,7 @@ on:
 jobs:
   build-test-docker:
     name: Build docker image and test on contract
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
     if: github.event_name == 'pull_request'
     steps:
       - name: GIT | Checkout Source code
@@ -28,7 +28,7 @@ jobs:
 
   build-push-docker:
     name: Build and push
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
     if: >
           github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
           github.event_name == 'workflow_dispatch'
