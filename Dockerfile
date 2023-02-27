@@ -34,7 +34,7 @@ ENV RUSTFLAGS="-C target-feature=-crt-static"
 RUN apt-get -y update && apt-get -y install gcc g++ git
 
 # Use https instead of git so that we don't have to install required for using git://
-RUN git clone --depth 1 --branch v2.0.0-beta.1 https://github.com/paritytech/cargo-contract.git 
+RUN git clone --depth 1 --branch v2.0.0 https://github.com/paritytech/cargo-contract.git 
 
 WORKDIR ${PWD}/cargo-contract
 
