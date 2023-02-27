@@ -15,9 +15,23 @@ on:
   pull_request:
 
 jobs:
+  build-test-docker:
+    name: Build docker image and test on contract
+    runs-on: ubuntu-20.04
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: GIT | Checkout Source code
+        uses: actions/checkout@v2
+
+      - name: DOCKER | Build image and run test
+        run: make build-ink-dev-x86_64 && make test-contract-x86_64
+
   build-push-docker:
     name: Build and push
     runs-on: ubuntu-20.04
+    if: >
+          github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
+          github.event_name == 'workflow_dispatch'
     steps:
       - name: GIT | Checkout Source code
         uses: actions/checkout@v2
@@ -43,21 +57,11 @@ jobs:
       - name: DOCKER | Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
-        if: >
-          github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
-          github.event_name == 'workflow_dispatch'
         with:
           version: v0.9.1
 
-      - name: DOCKER | Build docker image
-        if: github.event_name == 'pull_request'
-        run: make build-ink-dev-x86_64 && make test-contract-x86_64
-
       - name: DOCKER | Build and push docker image
         uses: docker/build-push-action@v3
-        if: >
-          github.ref == 'refs/heads/main' && github.event_name != 'pull_request' ||
-          github.event_name == 'workflow_dispatch'
         with:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
