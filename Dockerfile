@@ -52,7 +52,7 @@ WORKDIR /
 RUN rm -rf cargo-contract
 
 #
-# ink! types from contract metadata
+# Generate ink! types from contract metadata with ink-wrapper
 #
 FROM slimmed-rust as ink-wrapper
 
