@@ -56,6 +56,10 @@ RUN rm -rf cargo-contract
 #
 FROM slimmed-rust as ink-wrapper
 
+# Needed for 'cc' linking
+RUN apt-get update && apt-get -y install gcc \
+    && rm -rf /var/lib/apt/lists/*
+
 # Ink types from contract metadata
 RUN cargo install ink-wrapper
 
@@ -65,10 +69,6 @@ RUN cargo install ink-wrapper
 FROM ink-wrapper as ink-dev
 
 COPY --from=cc-builder /usr/local/bin/cargo-contract /usr/local/bin/cargo-contract
-
-# Needed for 'cc' linking
-RUN apt-get update && apt-get -y install gcc \
-    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /code
 
