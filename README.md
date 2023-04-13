@@ -47,6 +47,24 @@ $ ink-dev cargo contract check
 $ ink-dev cargo contract build --manifest-path some/other/project/Cargo.toml
 ```
 
+### Generate `ink!` types with `ink-wrapper`
+Another potential use case is to access [ink-wrapper](https://github.com/Cardinal-Cryptography/ink-wrapper/) within the environment and generate `ink!` types based on the contract metadata file. This can be done as follows:
+
+```sh
+function ink-wrapper {
+  docker run --rm \
+    -u $UID:$(id -g) \
+    -v "${PWD}":/code \
+    -v ~/.cargo/git:/usr/local/cargo/git \
+    -v ~/.cargo/registry:/usr/local/cargo/registry \
+    --entrypoint /bin/sh \
+    cardinal-cryptography/ink-dev:latest \
+    -c "ink-wrapper -m metadata.json | rustfmt --edition 2021 > src/ink_contract.rs"
+}
+```
+
+This will use `metadata.json` to generate `ink_contract.rs` which will contain useful types such a representation of the contract and the methods defined on it.
+
 
 ## Advanced usage
 
