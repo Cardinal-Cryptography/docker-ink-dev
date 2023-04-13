@@ -60,7 +60,6 @@ FROM slimmed-rust as ink-wrapper
 RUN apt-get update && apt-get -y install gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Ink types from contract metadata
 RUN cargo install ink-wrapper
 
 #
