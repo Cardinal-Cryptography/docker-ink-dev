@@ -52,9 +52,17 @@ WORKDIR /
 RUN rm -rf cargo-contract
 
 #
+# ink! types from contract metadata
+#
+FROM slimmed-rust as ink-wrapper
+
+# Ink types from contract metadata
+RUN cargo install ink-wrapper
+
+#
 # ink! 4.0 optimizer
 # 
-FROM slimmed-rust as ink-dev
+FROM ink-wrapper as ink-dev
 
 COPY --from=cc-builder /usr/local/bin/cargo-contract /usr/local/bin/cargo-contract
 
