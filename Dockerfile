@@ -56,7 +56,6 @@ RUN rm -rf cargo-contract
 #
 FROM slimmed-rust as ink-wrapper
 
-
 # Needed for 'cc' linking
 RUN apt-get update && apt-get -y install gcc \
     && rm -rf /var/lib/apt/lists/*
