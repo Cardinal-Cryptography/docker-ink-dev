@@ -17,7 +17,7 @@ RUN set -eux \
     && url="https://static.rust-lang.org/rustup/dist/${rustArch}/rustup-init" \
     && wget "$url" \
     && chmod +x rustup-init \
-    && ./rustup-init -y --no-modify-path --profile minimal --component rust-src --default-toolchain $RUST_VERSION  \
+    && ./rustup-init -y --no-modify-path --profile minimal --component rust-src rustfmt --default-toolchain $RUST_VERSION  \
     && rm rustup-init \
     && chmod -R a+w $RUSTUP_HOME $CARGO_HOME \
     && rustup --version \
@@ -56,13 +56,12 @@ RUN rm -rf cargo-contract
 #
 FROM slimmed-rust as ink-wrapper
 
+
 # Needed for 'cc' linking
 RUN apt-get update && apt-get -y install gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# ink-wrapper types & output formatting
-RUN rustup component add rustfmt \
-    && cargo install ink-wrapper
+RUN cargo install ink-wrapper
 
 #
 # ink! 4.0 optimizer
