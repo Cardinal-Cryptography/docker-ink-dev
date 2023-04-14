@@ -56,14 +56,13 @@ RUN rm -rf cargo-contract
 #
 FROM slimmed-rust as ink-wrapper
 
-# Need this to format the output of ink-wrapper
-RUN rustup component add rustfmt
-
 # Needed for 'cc' linking
 RUN apt-get update && apt-get -y install gcc \
     && rm -rf /var/lib/apt/lists/*
 
-RUN cargo install ink-wrapper
+# ink-wrapper types & output formatting
+RUN rustup component add rustfmt \
+    && cargo install ink-wrapper
 
 #
 # ink! 4.0 optimizer
