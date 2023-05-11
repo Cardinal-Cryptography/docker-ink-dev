@@ -24,6 +24,7 @@ RUN set -eux \
     && cargo --version \
     && rustc --version \
     && apt-get remove -y --auto-remove wget \
+    && apt-get -y install gcc \
     && rm -rf /var/lib/apt/lists/*
 
 FROM slimmed-rust as cc-builder
@@ -55,10 +56,6 @@ RUN rm -rf cargo-contract
 # Generate ink! types from contract metadata with ink-wrapper
 #
 FROM slimmed-rust as ink-wrapper-builder
-
-# Needed for 'cc' linking
-RUN apt-get update && apt-get -y install gcc \
-    && rm -rf /var/lib/apt/lists/*
 
 RUN cargo install ink-wrapper
 
