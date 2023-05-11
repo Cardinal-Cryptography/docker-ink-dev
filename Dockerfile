@@ -54,7 +54,7 @@ RUN rm -rf cargo-contract
 #
 # Generate ink! types from contract metadata with ink-wrapper
 #
-FROM slimmed-rust as ink-wrapper
+FROM slimmed-rust as ink-wrapper-builder
 
 # Needed for 'cc' linking
 RUN apt-get update && apt-get -y install gcc \
@@ -65,9 +65,10 @@ RUN cargo install ink-wrapper
 #
 # ink! 4.0 optimizer
 # 
-FROM ink-wrapper as ink-dev
+FROM slimmed-rust as ink-dev
 
 COPY --from=cc-builder /usr/local/bin/cargo-contract /usr/local/bin/cargo-contract
+COPY --from=ink-wrapper-builder /usr/local/cargo/bin/ink-wrapper /usr/local/bin/ink-wrapper
 
 WORKDIR /code
 
