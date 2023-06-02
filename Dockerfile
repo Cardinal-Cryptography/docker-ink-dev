@@ -57,7 +57,7 @@ RUN rm -rf cargo-contract
 #
 FROM slimmed-rust as ink-wrapper-builder
 
-RUN cargo install ink-wrapper --version 0.4.1 --locked --force
+RUN cargo install ink-wrapper --version 0.4.1 --locked
 
 #
 # ink! 4.0 optimizer
