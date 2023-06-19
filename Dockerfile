@@ -59,10 +59,14 @@ FROM slimmed-rust as ink-wrapper-builder
 
 RUN cargo install ink-wrapper --version 0.4.1 --locked
 
+FROM slimmed-rust as make
+
+RUN apt-get update && apt-get install -y make
+
 #
 # ink! 4.0 optimizer
 # 
-FROM slimmed-rust as ink-dev
+FROM make as ink-dev
 
 COPY --from=cc-builder /usr/local/bin/cargo-contract /usr/local/bin/cargo-contract
 COPY --from=ink-wrapper-builder /usr/local/cargo/bin/ink-wrapper /usr/local/bin/ink-wrapper
