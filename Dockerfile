@@ -24,7 +24,7 @@ RUN set -eux \
     && cargo --version \
     && rustc --version \
     && apt-get remove -y --auto-remove wget \
-    && apt-get -y install gcc \
+    && apt-get -y install gcc make \
     && rm -rf /var/lib/apt/lists/*
 
 FROM slimmed-rust as cc-builder
