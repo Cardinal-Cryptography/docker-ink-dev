@@ -4,7 +4,7 @@
 
 MAKEFILE_NAME := Ink development docker
 DOCKER_NAME_INK_DEV := cardinal-cryptography/ink-dev
-DOCKER_TAG := 1.4.0
+DOCKER_TAG := 1.5.0
 
 # Native arch
 BUILDARCH := $(shell uname -m)
