@@ -3,7 +3,9 @@ FROM docker.io/bitnami/minideb:bullseye as slimmed-rust
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH \
-    RUST_VERSION=nightly-2022-11-28
+    RUST_VERSION=nightly-2023-01-10 \
+    CARGO_CONTRACT_VERSION=3.0.1 \
+    INK_WRAPPER_VERSION=0.4.1
 
 # Minimal Rust dependencies.
 RUN set -eux \
@@ -35,7 +37,7 @@ ENV RUSTFLAGS="-C target-feature=-crt-static"
 RUN apt-get -y update && apt-get -y install gcc g++ git
 
 # Use https instead of git so that we don't have to install required for using git://
-RUN git clone --depth 1 --branch v2.1.0 https://github.com/paritytech/cargo-contract.git
+RUN git clone --depth 1 --branch v${CARGO_CONTRACT_VERSION} https://github.com/paritytech/cargo-contract.git
 
 WORKDIR ${PWD}/cargo-contract
 
@@ -57,11 +59,11 @@ RUN rm -rf cargo-contract
 #
 FROM slimmed-rust as ink-wrapper-builder
 
-RUN cargo install ink-wrapper --version 0.4.1 --locked
+RUN cargo install ink-wrapper --version ${INK_WRAPPER_VERSION} --locked
 
 #
 # ink! 4.0 optimizer
-# 
+#
 FROM slimmed-rust as ink-dev
 
 COPY --from=cc-builder /usr/local/bin/cargo-contract /usr/local/bin/cargo-contract
