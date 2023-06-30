@@ -5,7 +5,7 @@ ENV RUSTUP_HOME=/usr/local/rustup \
     PATH=/usr/local/cargo/bin:$PATH \
     RUST_VERSION=nightly-2023-01-10 \
     CARGO_CONTRACT_VERSION=3.0.1 \
-    INK_WRAPPER_VERSION=0.4.1
+    INK_WRAPPER_VERSION=0.5.0
 
 # Minimal Rust dependencies.
 RUN set -eux \
@@ -59,7 +59,7 @@ RUN rm -rf cargo-contract
 #
 FROM slimmed-rust as ink-wrapper-builder
 
-RUN cargo install ink-wrapper --version ${INK_WRAPPER_VERSION} --locked
+RUN cargo install ink-wrapper --version ${INK_WRAPPER_VERSION} --locked --force
 
 #
 # ink! 4.0 optimizer
