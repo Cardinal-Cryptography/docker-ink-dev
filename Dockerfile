@@ -3,8 +3,8 @@ FROM docker.io/bitnami/minideb:bullseye as slimmed-rust
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH \
-    RUST_VERSION=nightly-2023-01-10 \
-    CARGO_CONTRACT_VERSION=3.0.1 \
+    RUST_VERSION=1.71.0 \
+    CARGO_CONTRACT_VERSION=3.2.0 \
     INK_WRAPPER_VERSION=0.5.0
 
 # Minimal Rust dependencies.
