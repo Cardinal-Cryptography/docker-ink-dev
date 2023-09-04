@@ -59,7 +59,8 @@ RUN rm -rf cargo-contract
 #
 FROM slimmed-rust as ink-wrapper-builder
 
-RUN cargo install ink-wrapper --version ${INK_WRAPPER_VERSION} --locked --force
+RUN rustup toolchain install nightly-2023-04-16 \
+   && cargo +nightly-2023-04-16 install ink-wrapper --version ${INK_WRAPPER_VERSION} --locked --force
 
 #
 # ink! 4.0 optimizer
