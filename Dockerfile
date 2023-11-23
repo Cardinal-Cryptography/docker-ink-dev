@@ -5,11 +5,11 @@ ENV RUSTUP_HOME=/usr/local/rustup \
     PATH=/usr/local/cargo/bin:$PATH \
     RUST_VERSION=1.71.0 \
     CARGO_CONTRACT_VERSION=3.2.0 \
-    INK_WRAPPER_VERSION=0.6.1
+    INK_WRAPPER_VERSION=57fde9f0e31f1de610efe1879715c028849f4bc0
 
 LABEL cargo-contract="$CARGO_CONTRACT_VERSION" \
     rust="$RUST_VERSION" \
-    ink-wrapper="$INK_WRAPPER_VERSION"
+    ink-wrapper="rev-$INK_WRAPPER_VERSION"
 
 # Minimal Rust dependencies.
 RUN set -eux \
@@ -64,7 +64,7 @@ RUN rm -rf cargo-contract
 FROM slimmed-rust as ink-wrapper-builder
 
 RUN rustup toolchain install nightly-2023-04-20 \
-    && cargo +nightly-2023-04-20 install ink-wrapper --version ${INK_WRAPPER_VERSION} --locked --force
+    && cargo +nightly-2023-04-20 install ink-wrapper --git https://github.com/Cardinal-Cryptography/ink-wrapper.git --rev ${INK_WRAPPER_VERSION} --locked --force
 
 #
 # ink! 4.0 optimizer
