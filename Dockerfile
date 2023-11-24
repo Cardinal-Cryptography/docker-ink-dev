@@ -30,7 +30,7 @@ RUN set -eux \
     && cargo --version \
     && rustc --version \
     && apt-get remove -y --auto-remove wget \
-    && apt-get -y install gcc make \
+    && apt-get -y install gcc make g++ \
     && rm -rf /var/lib/apt/lists/*
 
 FROM slimmed-rust as cc-builder
@@ -38,7 +38,7 @@ FROM slimmed-rust as cc-builder
 # This is important, see https://github.com/rust-lang/docker-rust/issues/85
 ENV RUSTFLAGS="-C target-feature=-crt-static"
 
-RUN apt-get -y update && apt-get -y install gcc g++ git
+RUN apt-get -y update && apt-get -y install git
 
 # Use https instead of git so that we don't have to install required for using git://
 RUN git clone --depth 1 --branch v${CARGO_CONTRACT_VERSION} https://github.com/paritytech/cargo-contract.git
