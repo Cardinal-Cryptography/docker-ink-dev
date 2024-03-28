@@ -14,7 +14,7 @@ function ink-build() {
   docker run \
     -v ${PWD}:/code \
     --platform linux/amd64 \
-    --rm -it cardinal-cryptography/ink-dev:latest \
+    --rm -it public.ecr.aws/p6e8q1z1/ink-dev:latest \
     cargo contract build --release --quiet
 }
 ```
@@ -37,7 +37,7 @@ function ink-dev() {
     -v ~/.cargo/registry:/usr/local/cargo/registry \
     --platform linux/amd64 \
     -u $UID:$(id -g) \
-    cardinal-cryptography/ink-dev:latest "$@"
+    public.ecr.aws/p6e8q1z1/ink-dev:latest "$@"
 }
 ```
 
@@ -58,7 +58,7 @@ function ink-wrapper {
     -v ~/.cargo/git:/usr/local/cargo/git \
     -v ~/.cargo/registry:/usr/local/cargo/registry \
     --entrypoint /bin/sh \
-    cardinal-cryptography/ink-dev:latest \
+    public.ecr.aws/p6e8q1z1/ink-dev:latest \
     -c "ink-wrapper -m metadata.json | rustfmt --edition 2021 > src/ink_contract.rs"
 }
 ```
@@ -87,7 +87,7 @@ where you want to overwrite Rust for all projects inside `my-app`, you will have
 
 Example command (assuming `PWD=/my-app`):
 ```sh
-docker run --rm -v ${PWD}:/code cardinal-cryptography/ink-dev:latest cargo contract build --release --manifest-path ink-project-a/Cargo.toml
+docker run --rm -v ${PWD}:/code public.ecr.aws/p6e8q1z1/ink-dev:latest cargo contract build --release --manifest-path ink-project-a/Cargo.toml
 ```
 
 By providing `--manifest-path` we can specify exactly which project we want to build.
@@ -112,7 +112,7 @@ For these cases, we need to mount additional directories manually:
     -v ${PWD}/../other-contract:/other-contract
     --platform linux/amd64 \
     -u $UID:$(id -g) \
-    cardinal-cryptography/ink-dev:latest \
+    public.ecr.aws/p6e8q1z1/ink-dev:latest \
     cargo contract build --release --quiet
 ```
 Notice the additional `-v ${PWD}/../other-contract:/other-contract` which will mount your dependency so that it's visible in the docker container.
