@@ -21,7 +21,7 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: GIT | Checkout Source code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: DOCKER | Build image and run test
         run: make build-ink-dev-x86_64 && make test-contract-x86_64
@@ -34,10 +34,10 @@ jobs:
           github.event_name == 'workflow_dispatch'
     steps:
       - name: GIT | Checkout Source code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: AWS | Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_MAINNET_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_MAINNET_SECRET_ACCESS_KEY }}
